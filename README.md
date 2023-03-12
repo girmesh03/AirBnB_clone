@@ -28,19 +28,35 @@ All tests should also pass in non-interactive mode: `$ echo "python3 -m unittest
 
 Your shell should work like this in interactive mode:
 
-<div class="code-snippet">
-  <code>
-  $ ./console.py
-  (hbnb)help
+<div class="copy-container">
+<button class="copy-btn">Copy</button>
+<pre><code>$ ./console.py
+(hbnb)help
 
-  Documented commands (type help <topic>):
-  ========================================
-  EOF  all  count  create  destroy  help  nothing  quit  show  update
+Documented commands (type help <topic>):
+========================================
+EOF  all  count  create  destroy  help  nothing  quit  show  update
 
-  (hbnb)
-  (hbnb) 
-  (hbnb)quit
-  $
-  </code>
-  <button onclick="copyToClipboard(' $ ./console.py\n(hbnb)help\n\nDocumented commands (type help <topic>):\n========================================\nEOF  all  count  create  destroy  help  nothing  quit  show  update\n\n(hbnb)\n(hbnb) \n(hbnb)quit\n$')">Copy</button>
+(hbnb)
+(hbnb) 
+(hbnb)quit
+$</code></pre>
 </div>
+<script>
+    const copyBtns = document.querySelectorAll('.copy-btn');
+    copyBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const codeBlock = btn.parentNode.querySelector('code');
+            navigator.clipboard.writeText(codeBlock.innerText);
+            btn.innerText = 'Copied!';
+            setTimeout(() => {
+                btn.innerText = 'Copy';
+            }, 1000);
+        });
+    });
+</script>
+<style>
+    .copy-container {
+        position: relative;
+    }
+   
