@@ -28,48 +28,19 @@ All tests should also pass in non-interactive mode: `$ echo "python3 -m unittest
 
 Your shell should work like this in interactive mode:
 
-$ ./console.py
-(hbnb)help
+<div class="code-snippet">
+  <code>
+  $ ./console.py
+  (hbnb)help
 
-Documented commands (type help <topic>):
-========================================
-EOF  all  count  create  destroy  help  nothing  quit  show  update
+  Documented commands (type help <topic>):
+  ========================================
+  EOF  all  count  create  destroy  help  nothing  quit  show  update
 
-(hbnb)
-(hbnb) 
-(hbnb)quit
-$ 
-
-But also in non-interactive mode: (like the Shell project in C)
-
-$ echo "help" | ./console.py
-(hbnb)
-
-Documented commands (type help <topic>):
-========================================
-EOF  help  quit
-(hbnb) 
-$
-$ cat test_help
-help
-$
-$ cat test_help | ./console.py
-(hbnb)
-
-Documented commands (type help <topic>):
-========================================
-EOF  all  count  create  destroy  help  nothing  quit  show  update
-(hbnb) 
-$
-
-All tests should also pass in non-interactive mode:
-
-$ echo "python3 -m unittest discover tests" | bash
-
-.......
-----------------------------------------------------------------------
-Ran 52 tests in 0.021s
-
-OK
-
-
+  (hbnb)
+  (hbnb) 
+  (hbnb)quit
+  $
+  </code>
+  <button onclick="copyToClipboard(' $ ./console.py\n(hbnb)help\n\nDocumented commands (type help <topic>):\n========================================\nEOF  all  count  create  destroy  help  nothing  quit  show  update\n\n(hbnb)\n(hbnb) \n(hbnb)quit\n$')">Copy</button>
+</div>
