@@ -1,13 +1,14 @@
 #!/usr/bin/python3
-
 from console import HBNBCommand
 from unittest.mock import create_autospec
 from unittest.mock import patch
+from models.engine.file_storage import FileStorage
 from io import StringIO
 import unittest
 import sys
-
-"""Unittest for console.py module"""
+"""
+Unittest Module for console.py
+"""
 
 
 class TestConsole(unittest.TestCase):
