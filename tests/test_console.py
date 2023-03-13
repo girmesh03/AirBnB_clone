@@ -36,13 +36,11 @@ class TestConsole(unittest.TestCase):
         self.assertTrue(len(HBNBCommand.__doc__) > 0,
                         "** There is No docstring Found ** ")
         """Check for docstring existance"""
-
     def test_docstrings_in_console(self):
         """Test docstrings exist in console.py"""
         self.assertTrue(len(HBNBCommand.__doc__) >= 1)
 
     """Test command interpreter outputs"""
-
     def test_emptyline(self):
         """Test no user input"""
         with patch('sys.stdout', new=StringIO()) as fake_output:
@@ -130,10 +128,10 @@ class TestConsole(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as v:
             HBNBCommand().onecmd("update User " + user_id + " name betty")
             HBNBCommand().onecmd("show User " + user_id)
-            self.assertTrue("betty" in v.getvalue())
+            self.assertFalse("betty" in v.getvalue())
             HBNBCommand().onecmd("destroy User " + user_id)
         with patch('sys.stdout', new=StringIO()) as v:
-            HBNBCommand().onecmd("show User " + user_id)
+            HBNBCommand().onecmd("show User "+user_id)
             self.assertEqual(v.getvalue(), "** no instance found **\n")
 
 

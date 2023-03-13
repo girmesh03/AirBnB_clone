@@ -5,8 +5,6 @@ import os
 from models.user import User
 from models.base_model import BaseModel
 
-"""This module contains the TestUser class"""
-
 
 class TestUser(unittest.TestCase):
 

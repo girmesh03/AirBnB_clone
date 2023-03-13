@@ -48,7 +48,7 @@ class TestFileStorage(unittest.TestCase):
         a_storage = FileStorage()
         try:
             os.remove("file.json")
-        except FileNotFoundError:
+        except:
             pass
         with open("file.json", "w") as f:
             f.write("{}")
@@ -69,7 +69,7 @@ class TestFileStorage(unittest.TestCase):
         obj.new(new_obj)
         dict1 = obj.all()
         obj.save()
-        # obj.reload()
+        obj.reload()
         dict2 = obj.all()
         for key in dict1:
             key1 = key

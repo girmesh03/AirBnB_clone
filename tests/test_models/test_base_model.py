@@ -1,21 +1,25 @@
 #!/usr/bin/python3
 import unittest
 from models.base_model import BaseModel
-
 """
 Unittest Module for BaseModel class
 """
 
 
-class TestBaseModel(unittest.TestCase):
+class TestUser(unittest.TestCase):
     ''' Unittest for BaseModel class '''
 
     def test_object_Instantiation(self):
-        ''' Tests if BaseModel class instantiates correctly '''
+        ''' instantiates class '''
         self.basemodel = BaseModel()
 
+    def test_checking_for_functions(self):
+        self.assertIsNotNone(BaseModel.__doc__)
+        self.assertIsNotNone(BaseModel.save.__doc__)
+        self.assertIsNotNone(BaseModel.to_dict.__doc__)
+
     def testattr(self):
-        ''' Tests if BaseModel class has the correct attributes '''
+        ''' test Class: User attributes '''
         self.basemodel = BaseModel()
         self.assertTrue(hasattr(self.basemodel, "created_at"))
         self.assertTrue(hasattr(self.basemodel, "updated_at"))
@@ -33,13 +37,13 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(self.basemodel.__class__.__name__, "BaseModel")
 
     def testsave(self):
-        ''' Tests if save method updates the updated_at attribute '''
+        ''' testing method: save '''
         self.basemodel = BaseModel()
         self.basemodel.save()
         self.assertTrue(hasattr(self.basemodel, "updated_at"))
 
     def teststr(self):
-        ''' Tests if __str__ method returns the correct format '''
+        ''' testing __str__ return format of BaseModel '''
         self.basemodel = BaseModel()
         s = "[{}] ({}) {}".format(self.basemodel.__class__.__name__,
                                   str(self.basemodel.id),
@@ -47,21 +51,11 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(print(s), print(self.basemodel))
 
     def test_to_dict(self):
-        ''' Tests if to_dict method returns a dictionary
-        with the correct attributes '''
         base1 = BaseModel()
         base1_dict = base1.to_dict()
         self.assertEqual(base1.__class__.__name__, 'BaseModel')
         self.assertIsInstance(base1_dict['created_at'], str)
         self.assertIsInstance(base1_dict['updated_at'], str)
-
-    def test_checking_for_functions(self):
-        ''' Tests if BaseModel class has the required
-        functions with documentation '''
-        self.assertIsNotNone(BaseModel.__doc__)
-        self.assertIsNotNone(BaseModel.save.__doc__)
-        self.assertIsNotNone(BaseModel.to_dict.__doc__)
-
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 import unittest
 from models.state import State
-
 """
 Unittest Module for State class
 """
@@ -39,7 +38,6 @@ class TestUser(unittest.TestCase):
         s = "[{}] ({}) {}".format(self.state.__class__.__name__,
                                   str(self.state.id), self.state.__dict__)
         self.assertEqual(print(s), print(self.state))
-
 
 if __name__ == '__main__':
     unittest.main()

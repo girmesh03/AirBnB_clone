@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 import unittest
 from models.city import City
-
 """
 Unittest Module for City class
 """
@@ -42,7 +41,6 @@ class TestUser(unittest.TestCase):
         s = "[{}] ({}) {}".format(self.city.__class__.__name__,
                                   str(self.city.id), self.city.__dict__)
         self.assertEqual(print(s), print(self.city))
-
 
 if __name__ == '__main__':
     unittest.main()

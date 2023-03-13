@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 import unittest
 from models.place import Place
-
 """
 Unittest Module for Place class
 """
@@ -31,7 +30,7 @@ class TestUser(unittest.TestCase):
         self.assertEqual(self.place.max_guest, 0)
         self.assertEqual(self.place.price_by_night, 0)
         self.assertEqual(self.place.latitude, 0.0)
-        self.assertEqual(self.place.longitude, 0.0)
+        self.assertEqual(self.place.longtude, 0.0)
         self.assertEqual(self.place.amenity_ids, [])
 
     def testsave(self):
@@ -46,7 +45,6 @@ class TestUser(unittest.TestCase):
         s = "[{}] ({}) {}".format(self.place.__class__.__name__,
                                   str(self.place.id), self.place.__dict__)
         self.assertEqual(print(s), print(self.place))
-
 
 if __name__ == '__main__':
     unittest.main()

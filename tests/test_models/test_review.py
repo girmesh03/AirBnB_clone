@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 import unittest
 from models.review import Review
-
 """
 Unittest Module for Review class
 """
@@ -37,7 +36,6 @@ class TestUser(unittest.TestCase):
         s = "[{}] ({}) {}".format(self.review.__class__.__name__,
                                   str(self.review.id), self.review.__dict__)
         self.assertEqual(print(s), print(self.review))
-
 
 if __name__ == '__main__':
     unittest.main()
