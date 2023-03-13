@@ -25,6 +25,7 @@ class BaseModel:
         self.updated_at = datetime.now()
 
     def __str__(self):
+        """returns [Class name] (id) <__dict__>"""
         return "[{}] ({}) {}".format(self.__class__.__name__,
                                      self.id, self.__dict__)
 
