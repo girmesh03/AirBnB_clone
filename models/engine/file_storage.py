@@ -8,15 +8,7 @@ from models.base_model import BaseModel
 
 class FileStorage:
     """FileStorage class is responsible for serializing and deserializing
-    instances to and from JSON file. It has the following public instance
-    attributes:
-        __file_path: path to the JSON file
-        __objects: empty dictionary
-    And the following public instance methods:
-        all(): returns the dictionary __objects
-        new(obj): sets in __objects the obj with key <obj class name>.id
-        save(): serializes __objects to the JSON file
-        reload(): deserializes the JSON file to __objects
+    instances to and from JSON file.
     """
 
     __file_path = "file.json"
@@ -41,18 +33,7 @@ class FileStorage:
 
     def reload(self):
         """
-        Loads all objects from the file storage.
-        This method reads the contents of the JSON file
-        specified in the `__file_path` attribute and creates
-        instances of the corresponding classes for each
-        object found in the file. Each object is then added to
-        the dictionary of objects stored in the `__objects`
-        attribute, with the object's ID and class name used
-        as the dictionary key.
-
-        If the file specified in the `__file_path`
-        attribute does not exist or cannot be read,
-        this method does nothing.
+        deserializes the JSON file to __objects
         """
         if os.path.exists(FileStorage.__file_path):
             with open(FileStorage.__file_path, "r") as f:
