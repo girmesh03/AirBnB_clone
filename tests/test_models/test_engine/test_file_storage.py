@@ -22,6 +22,7 @@ class TestFileStorage(unittest.TestCase):
     Args:
         unittest ([type]): [description]
     """
+
     def setUp(self):
         """SetUp method"""
         self.bm_instance = BaseModel()
@@ -96,7 +97,7 @@ class TestFileStorage(unittest.TestCase):
         """ tests __init__ with many arguments"""
         with self.assertRaises(TypeError) as error:
             base = FileStorage(7, 12)
-        fail = "object() takes no parameters"
+        fail = "FileStorage() takes no arguments"
         self.assertEqual(str(error.exception), fail)
 
     def test_all_dict_returned(self):
