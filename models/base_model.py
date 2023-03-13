@@ -18,6 +18,7 @@ class BaseModel:
             created_at -> Public instance attributes
             updated_at -> Public instance attributes
     """
+
     def __init__(self, *args, **kwargs):
         """
         Initialization of the object/instance attributes
@@ -36,9 +37,9 @@ class BaseModel:
                     self.id = value
                 elif key == "created_at" or key == "updated_at":
                     self.__dict__[key] = datetime.strptime(value, isoform_time)
-                elif key is "__class__":
+                elif key == "__class__":
                     pass
-                elif key is not "__class__":
+                elif key != "__class__":
                     self.__dict__[key] = value
 
     def __str__(self):

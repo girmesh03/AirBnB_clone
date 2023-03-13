@@ -195,7 +195,7 @@ class HBNBCommand(cmd.Cmd):
             elif method[0] == "update":
                 part1 = method[1].replace(")", "")
                 check_dict = part1[:].split(", ")
-                if check_dict[1][0] is "{":
+                if check_dict[1][0] == "{":
                     class_id = check_dict[0].replace('"', "")
                     dog = r"\d+\.\d+"
                     for i in range(1, len(check_dict)):
