@@ -3,6 +3,8 @@ from console import HBNBCommand
 from unittest.mock import create_autospec
 from unittest.mock import patch
 from models.engine.file_storage import FileStorage
+from models.base_model import BaseModel
+from models import storage
 from io import StringIO
 import unittest
 import sys
@@ -137,18 +139,14 @@ class TestConsole(unittest.TestCase):
             self.assertEqual(v.getvalue(), "** no instance found **\n")
 
     def test_base_model_show_with_id(self):
-        """Test cmd output: show BaseModel with id"""
+        """Test cmd output: BaseModel.show() with known ID"""
+        base = BaseModel()
+        base.save()
+        id = base.id
         with patch('sys.stdout', new=StringIO()) as fake_output:
-            # Create a new BaseModel instance
-            HBNBCommand().onecmd("create BaseModel")
-            id = fake_output.getvalue().strip()
-
-            # Call the show command with the instance ID
-            HBNBCommand().onecmd("show BaseModel {}".format(id))
-
-            # Check that the output does not match "** no instance found **\n"
-            self.assertNotEqual(fake_output.getvalue().strip(),
-                                "** no instance found **")
+            HBNBCommand().onecmd("BaseModel.show(\"{}\")".format(id))
+            expected_output = str(base) + '\n'
+            self.assertEqual(fake_output.getvalue(), expected_output)
 
 
 if __name__ == '__main__':
