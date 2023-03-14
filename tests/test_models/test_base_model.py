@@ -2,6 +2,7 @@
 """ Unittest for BaseModel class """
 import unittest
 import json
+import pep8
 import os
 from datetime import datetime
 from models.base_model import BaseModel
@@ -20,11 +21,16 @@ class TestBaseModel(unittest.TestCase):
     Args:
         unittest ([type]): [description]
     """
-
     def setUp(self):
         """SetUp method"""
         self.bm_instance1 = BaseModel()
         self.bm_instance2 = BaseModel()
+
+    def test_base_pep8(self):
+        """test pep8"""
+        pep8style = pep8.StyleGuide(quiet=True)
+        result = pep8style.check_files(['./models/base_model.py'])
+        self.assertEqual(result.total_errors, 0)
 
     def test_docstring(self):
         """test docstring in the file"""
