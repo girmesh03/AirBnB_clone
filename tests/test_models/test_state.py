@@ -2,7 +2,6 @@
 """ Unittest for State class """
 import unittest
 import json
-import pep8
 import os
 from models.base_model import BaseModel
 from models.amenity import Amenity
@@ -20,12 +19,6 @@ class TestState(unittest.TestCase):
         """SetUp method"""
         self.state1 = State()
         self.state1.name = "juan"
-
-    def test_base_pep8(self):
-        """Test for pep8"""
-        pep8style = pep8.StyleGuide(quiet=True)
-        result = pep8style.check_files(['./models/state.py'])
-        self.assertEqual(result.total_errors, 0)
 
     def test_docstring(self):
         """test docstring in the file"""

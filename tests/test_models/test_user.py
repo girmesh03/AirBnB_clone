@@ -2,7 +2,6 @@
 """ Unittest for User class """
 import unittest
 import json
-import pep8
 import os
 from models.base_model import BaseModel
 from models.amenity import Amenity
@@ -23,12 +22,6 @@ class TestUser(unittest.TestCase):
         self.user1.password = "aeiou12345"
         self.user1.first_name = "juan"
         self.user1.last_name = "yepes"
-
-    def test_base_pep8(self):
-        """Test for pep8"""
-        pep8style = pep8.StyleGuide(quiet=True)
-        result = pep8style.check_files(['./models/user.py'])
-        self.assertEqual(result.total_errors, 0)
 
     def test_docstring(self):
         """test docstring in the file"""

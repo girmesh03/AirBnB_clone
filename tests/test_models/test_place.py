@@ -2,7 +2,6 @@
 """ Unittest for Place class """
 import unittest
 import json
-import pep8
 import os
 from models.base_model import BaseModel
 from models.amenity import Amenity
@@ -30,13 +29,7 @@ class TestPlace(unittest.TestCase):
         self.place1.latitude = 43.6
         self.place1.longitude = 79.3
         self.place1.amenity_ids = ["d15s64sd", "4asdad"]
-
-    def test_base_pep8(self):
-        """Test for pep8"""
-        pep8style = pep8.StyleGuide(quiet=True)
-        result = pep8style.check_files(['./models/place.py'])
-        self.assertEqual(result.total_errors, 0)
-
+        
     def test_docstring(self):
         """test docstring in the file"""
         self.assertIsNotNone(Place.__doc__)

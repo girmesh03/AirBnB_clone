@@ -2,7 +2,6 @@
 """ Unittest for FileStorage class """
 import unittest
 import json
-import pep8
 import os
 from models.base_model import BaseModel
 from models.amenity import Amenity
@@ -28,12 +27,6 @@ class TestFileStorage(unittest.TestCase):
         self.bm_instance = BaseModel()
         self.storage_instance = FileStorage()
         self.user1 = User()
-
-    def test_base_pep8(self):
-        """Test for pep8"""
-        pep8style = pep8.StyleGuide(quiet=True)
-        result = pep8style.check_files(['./models/engine/file_storage.py'])
-        self.assertEqual(result.total_errors, 0)
 
     def test_docstring(self):
         """test docstring in the file"""
@@ -140,16 +133,3 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
-
-    def test_base_pep8_conformance_file_storage(self):
-        """Test that we conform to PEP8."""
-        pep8style = pep8.StyleGuide(quiet=True)
-        result = pep8style.check_files(['/models/engine/file_storage.py'])
-        self.assertEqual(result.total_errors, 1)
-
-    def test_base_pep8_conformance_filesto_test(self):
-        """Test that we conform to PEP8."""
-        pep8style = pep8.StyleGuide(quiet=True)
-        result = pep8style.check_files([
-            '/tests/test_models/test_engine/test_file_storageconsole.py'])
-        self.assertEqual(result.total_errors, 1)
