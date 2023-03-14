@@ -148,6 +148,16 @@ class TestConsole(unittest.TestCase):
             expected_output = str(base) + '\n'
             self.assertEqual(fake_output.getvalue(), expected_output)
 
+    def test_class_name_destroy_with_id(self):
+        """Test cmd output: ClassName.destroy() with known ID"""
+        base = BaseModel()
+        base.save()
+        id = base.id
+        with patch('sys.stdout', new=StringIO()) as fake_output:
+            HBNBCommand().onecmd("ClassName.destroy(\"{}\")".format(id))
+            self.assertEqual(fake_output.getvalue().strip(), "")
+            self.assertIsNone(storage.all().get(id))
+
 
 if __name__ == '__main__':
     unittest.main()
