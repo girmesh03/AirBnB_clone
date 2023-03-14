@@ -139,11 +139,16 @@ class TestConsole(unittest.TestCase):
     def test_base_model_show_with_id(self):
         """Test cmd output: show BaseModel with id"""
         with patch('sys.stdout', new=StringIO()) as fake_output:
+            # Create a new BaseModel instance
             HBNBCommand().onecmd("create BaseModel")
             id = fake_output.getvalue().strip()
+
+            # Call the show command with the instance ID
             HBNBCommand().onecmd("show BaseModel {}".format(id))
-            self.assertNotEqual(fake_output.getvalue(),
-                                "** no instance found **\n")
+
+            # Check that the output does not match "** no instance found **\n"
+            self.assertNotEqual(fake_output.getvalue().strip(),
+                                "** no instance found **")
 
 
 if __name__ == '__main__':
