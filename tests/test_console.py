@@ -158,6 +158,17 @@ class TestConsole(unittest.TestCase):
             self.assertEqual(fake_output.getvalue().strip(), "")
             self.assertIsNone(storage.all().get(id))
 
+    def test_update_class_name_id_key_value(self):
+        """Test <class name>.update(<id>, <dictionary representation>)."""
+        base = BaseModel()
+        base.save()
+        id = base.id
+        with patch('sys.stdout', new=StringIO()) as fake_output:
+            HBNBCommand().onecmd(
+                "BaseModel.update(\"{}\", {{\"name\": \"Betty\"}})".format(id))
+            self.assertEqual(fake_output.getvalue().strip(), "")
+            self.assertEqual(base.name, "Betty")
+
 
 if __name__ == '__main__':
     unittest.main()
