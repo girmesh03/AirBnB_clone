@@ -20,7 +20,7 @@ class TestCity(unittest.TestCase):
         self.city1 = City()
         self.city1.state_id = "ad45ad61as6d1"
         self.city1.name = "juan"
-        
+
     def test_docstring(self):
         """test docstring in the file"""
         self.assertIsNotNone(City.__doc__)
