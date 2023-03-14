@@ -136,6 +136,15 @@ class TestConsole(unittest.TestCase):
             HBNBCommand().onecmd("show User " + user_id)
             self.assertEqual(v.getvalue(), "** no instance found **\n")
 
+    def test_base_model_show_with_id(self):
+        """Test cmd output: show BaseModel with id"""
+        with patch('sys.stdout', new=StringIO()) as fake_output:
+            HBNBCommand().onecmd("create BaseModel")
+            id = fake_output.getvalue().strip()
+            HBNBCommand().onecmd("show BaseModel {}".format(id))
+            self.assertNotEqual(fake_output.getvalue(),
+                                "** no instance found **\n")
+
 
 if __name__ == '__main__':
     unittest.main()
