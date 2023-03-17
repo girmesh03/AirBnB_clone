@@ -143,19 +143,19 @@ class TestConsole(unittest.TestCase):
         base = BaseModel()
         base.save()
         id = base.id
-        with patch('sys.stdout', new=StringIO()) as fake_output:
+        with patch('sys.stdout', new=StringIO()) as v:
             HBNBCommand().onecmd("BaseModel.show(\"{}\")".format(id))
             expected_output = str(base) + '\n'
-            self.assertEqual(fake_output.getvalue(), expected_output)
+            self.assertEqual(v.getvalue(), expected_output)
 
     def test_class_name_destroy_with_id(self):
         """Test cmd output: ClassName.destroy() with known ID"""
         base = BaseModel()
         base.save()
         id = base.id
-        with patch('sys.stdout', new=StringIO()) as fake_output:
+        with patch('sys.stdout', new=StringIO()) as v:
             HBNBCommand().onecmd("ClassName.destroy(\"{}\")".format(id))
-            self.assertEqual(fake_output.getvalue().strip(), "")
+            self.assertEqual(v.getvalue().strip(), "")
             self.assertIsNone(storage.all().get(id))
 
     def test_update_class_name_id_key_value(self):
@@ -163,10 +163,10 @@ class TestConsole(unittest.TestCase):
         base = BaseModel()
         base.save()
         id = base.id
-        with patch('sys.stdout', new=StringIO()) as fake_output:
+        with patch('sys.stdout', new=StringIO()) as v:
             HBNBCommand().onecmd(
                 "BaseModel.update(\"{}\", {{\"name\": \"Betty\"}})".format(id))
-            self.assertEqual(fake_output.getvalue().strip(), "")
+            self.assertEqual(v.getvalue().strip(), "")
             self.assertEqual(base.name, "Betty")
 
 
