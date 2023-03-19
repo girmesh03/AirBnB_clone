@@ -1,13 +1,16 @@
 #!/usr/bin/python3
-
 from console import HBNBCommand
 from unittest.mock import create_autospec
 from unittest.mock import patch
+from models.engine.file_storage import FileStorage
+from models.base_model import BaseModel
+from models import storage
 from io import StringIO
 import unittest
 import sys
-
-"""Unittest for console.py module"""
+"""
+Unittest Module for console.py
+"""
 
 
 class TestConsole(unittest.TestCase):
@@ -134,6 +137,37 @@ class TestConsole(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as v:
             HBNBCommand().onecmd("show User " + user_id)
             self.assertEqual(v.getvalue(), "** no instance found **\n")
+
+    def test_base_model_show_with_id(self):
+        """Test cmd output: BaseModel.show() with known ID"""
+        base = BaseModel()
+        base.save()
+        id = base.id
+        with patch('sys.stdout', new=StringIO()) as v:
+            HBNBCommand().onecmd("BaseModel.show(\"{}\")".format(id))
+            expected_output = str(base) + '\n'
+            self.assertEqual(v.getvalue(), expected_output)
+
+    def test_class_name_destroy_with_id(self):
+        """Test cmd output: ClassName.destroy() with known ID"""
+        base = BaseModel()
+        base.save()
+        id = base.id
+        with patch('sys.stdout', new=StringIO()) as v:
+            HBNBCommand().onecmd("ClassName.destroy(\"{}\")".format(id))
+            self.assertEqual(v.getvalue().strip(), "")
+            self.assertIsNone(storage.all().get(id))
+
+    def test_update_class_name_id_key_value(self):
+        """Test <class name>.update(<id>, <dictionary representation>)."""
+        base = BaseModel()
+        base.save()
+        id = base.id
+        with patch('sys.stdout', new=StringIO()) as v:
+            HBNBCommand().onecmd(
+                "BaseModel.update(\"{}\", {{\"name\": \"Betty\"}})".format(id))
+            self.assertEqual(v.getvalue().strip(), "")
+            self.assertEqual(base.name, "Betty")
 
 
 if __name__ == '__main__':

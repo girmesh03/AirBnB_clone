@@ -1,110 +1,71 @@
 #!/usr/bin/python3
-
-# Import necessary modules
-import uuid  # For generating unique ids
-from datetime import datetime  # For handling timestamps
-import models  # For storage functionality
-
-
 """
-This module defines a base model class for creating
-objects with unique ids, timestamps, and storage functionality.
+BaseModel class that defines all common attributes/methods for other classes
 """
+import uuid
+from datetime import datetime
+import models
+import json
+isoform_time = "%Y-%m-%dT%H:%M:%S.%f"
 
 
 class BaseModel:
     """
-    This class defines a base model for creating objects with unique ids,
-    timestamps, and storage functionality.
-
-    Attributes:
-        id (str): The unique identifier of the instance.
-        created_at (datetime): Instance creation time.
-        updated_at (datetime): Instance last update time.
+        Summary: Definning the base class
+        from which the other classes will inherit
+        Attributes:
+            id -> Public instance attributes
+            created_at -> Public instance attributes
+            updated_at -> Public instance attributes
     """
 
     def __init__(self, *args, **kwargs):
         """
-        Initializes a new instance of the BaseModel class.
-
-        Args:
-            *args: Variable-length argument list.
-            **kwargs: Arbitrary keyword arguments.
+        Initialization of the object/instance attributes
+            id: contains the object's identification
+            created_at: the datetime in which the object was created
+            updated_at: the datetime in which the object was modified
         """
-        # Check for keyword arguments.
-        if kwargs:
-            # Set id attribute to a UUID if it doesn't exist.
-            if 'id' not in kwargs:
-                self.id = str(uuid.uuid4())
-            else:
-                self.id = kwargs['id']
-                if not isinstance(self.id, str):
-                    self.id = str(self.id)
-
-            # Set created_at and updated_at attributes if they exist.
-
-            # Set all other keyword arguments as object attributes.
-            for key, value in kwargs.items():
-                if key == '__class__':
-                    continue
-                if key == 'created_at' or key == 'updated_at':
-                    value = datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f')
-                    setattr(self, key, value)
-        else:
-            # Set id attribute to a UUID and created_at
-            # and updated_at to current datetime.
+        if kwargs is None or len(kwargs) == 0:
             self.id = str(uuid.uuid4())
-            self.created_at = self.updated_at = datetime.now()
-            # Save new instance to storage.
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
             models.storage.new(self)
+        else:
+            for key, value in kwargs.items():
+                if key == "id":
+                    self.id = value
+                elif key == "created_at" or key == "updated_at":
+                    self.__dict__[key] = datetime.strptime(value, isoform_time)
+                elif key == "__class__":
+                    pass
+                elif key != "__class__":
+                    self.__dict__[key] = value
 
     def __str__(self):
-        """
-        Returns a string representation of the instance.
-
-        Usage:
-            print(my_instance)
-
-        Returns:
-            A string with the format '[ClassName] (id) {attributes}'.
-        """
-        return "[{}] ({}) {}".format(
-            self.__class__.__name__, self.id, self.__dict__
-        )
+        """ Writing the __str__ method """
+        return "[{}] ({}) {}".format(self.__class__.__name__,
+                                     self.id, self.__dict__)
 
     def save(self):
+        """ Public instance methods:
+            updates the public instance attribute updated_at
+            with the current datetime
         """
-        Updates the instance's `updated_at` attribute with the
-        current date and time and saves the changes to the storage.
-
-        Usage:
-            my_instance.save()
-
-        Returns:
-            None
-        """
-        # Update the updated_at attribute
         self.updated_at = datetime.now()
-        # Save the changes to storage
         models.storage.save()
 
     def to_dict(self):
+        """ Public instance methods
+            returns a dictionary containing all keys/values
+            of __dict__ of the instance with self.__dict__
+            we are making a copy.
+            This method will be the first piece of the
+            serialization/deserialization process: create a dictionary
+            representation with “simple object type” of our BaseModel
         """
-        Returns a dictionary representation of the instance's attributes.
-
-        Usage:
-        my_dict = my_instance.to_dict()
-
-        Returns:
-        A dictionary with the keys 'id', 'created_at', 'updated_at', and
-        '__class__' that correspond to the instance's attributes.
-        """
-        # Create a copy of the instance's dict
-        dict_copy = self.__dict__.copy()
-        # Add the class name
-        dict_copy["__class__"] = self.__class__.__name__
-        # Convert created_at to ISO format
-        dict_copy["created_at"] = self.created_at.isoformat()
-        dict_copy["updated_at"] = self.updated_at.isoformat()
-        # Return the dictionary representation of the instance
-        return dict_copy
+        dic_BaseClass = self.__dict__.copy()
+        dic_BaseClass["__class__"] = self.__class__.__name__
+        dic_BaseClass["created_at"] = self.created_at.isoformat()
+        dic_BaseClass["updated_at"] = self.updated_at.isoformat()
+        return dic_BaseClass

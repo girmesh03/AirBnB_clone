@@ -1,59 +1,59 @@
 #!/usr/bin/python3
-
+""" Unittest for User class """
 import unittest
+import json
+import pep8
 import os
-from models.user import User
 from models.base_model import BaseModel
-
-"""This module contains the TestUser class"""
+from models.amenity import Amenity
+from models.city import City
+from models.place import Place
+from models.state import State
+from models.review import Review
+from models.user import User
+from models.engine.file_storage import FileStorage
 
 
 class TestUser(unittest.TestCase):
 
-    @classmethod
-    def setUpClass(cls):
-        cls.my_user = User()
-        cls.my_user.first_name = "Betty"
-        cls.my_user.last_name = "Holberton"
-        cls.my_user.email = "airbnb@holbertonshool.com"
-        cls.my_user.password = "root"
+    def setUp(self):
+        """SetUp method"""
+        self.user1 = User()
+        self.user1.email = "1452@holbertonschool.com"
+        self.user1.password = "aeiou12345"
+        self.user1.first_name = "juan"
+        self.user1.last_name = "yepes"
 
-    @classmethod
-    def tearDownClass(cls):
-        del cls.my_user
-        try:
-            os.remove("file.json")
-        except FileNotFoundError:
-            pass
+    def test_base_pep8(self):
+        """Test for pep8"""
+        pep8style = pep8.StyleGuide(quiet=True)
+        result = pep8style.check_files(['./models/user.py'])
+        self.assertEqual(result.total_errors, 0)
 
-    def test_is_subclass(self):
-        self.assertTrue(issubclass(self.my_user.__class__, BaseModel), True)
-
-    def test_checking_for_functions(self):
+    def test_docstring(self):
+        """test docstring in the file"""
         self.assertIsNotNone(User.__doc__)
 
-    def test_has_attributes(self):
-        self.assertTrue('email' in self.my_user.__dict__)
-        self.assertTrue('id' in self.my_user.__dict__)
-        self.assertTrue('created_at' in self.my_user.__dict__)
-        self.assertTrue('updated_at' in self.my_user.__dict__)
-        self.assertTrue('password' in self.my_user.__dict__)
-        self.assertTrue('first_name' in self.my_user.__dict__)
-        self.assertTrue('last_name' in self.my_user.__dict__)
+    def test_is_instance(self):
+        """Test for instantiation"""
+        self.assertIsInstance(self.user1, User)
 
-    def test_attributes_are_strings(self):
-        self.assertEqual(type(self.my_user.email), str)
-        self.assertEqual(type(self.my_user.password), str)
-        self.assertEqual(type(self.my_user.first_name), str)
-        self.assertEqual(type(self.my_user.first_name), str)
+    def test_attributes(self):
+        """Test to check attributes"""
+        self.user1.save()
+        user1_json = self.user1.to_dict()
+        my_new_user = User(**user1_json)
+        self.assertEqual(my_new_user.id, self.user1.id)
+        self.assertEqual(my_new_user.created_at, self.user1.created_at)
+        self.assertEqual(my_new_user.updated_at, self.user1.updated_at)
+        self.assertIsNot(self.user1, my_new_user)
+
+    def test_subclass(self):
+        """Test to check the inheritance"""
+        self.assertTrue(issubclass(self.user1.__class__, BaseModel), True)
 
     def test_save(self):
-        self.my_user.save()
-        self.assertNotEqual(self.my_user.created_at, self.my_user.updated_at)
-
-    def test_to_dict(self):
-        self.assertEqual('to_dict' in dir(self.my_user), True)
-
-
-if __name__ == "__main__":
-    unittest.main()
+        """Test to check save method"""
+        variable_update = self.user1.updated_at
+        self.user1.save()
+        self.assertNotEqual(variable_update, self.user1.updated_at)

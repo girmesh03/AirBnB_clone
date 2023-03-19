@@ -1,48 +1,57 @@
 #!/usr/bin/python3
+""" Unittest for City class """
 import unittest
+import json
+import pep8
+import os
+from models.base_model import BaseModel
+from models.amenity import Amenity
 from models.city import City
-
-"""
-Unittest Module for City class
-"""
-
-
-class TestUser(unittest.TestCase):
-    ''' Unittest for City class '''
-
-    def test_object_Instantiation(self):
-        ''' instantiates class '''
-        self.city = City()
-
-    def testattr(self):
-        ''' test Class: City attributes '''
-        self.city = City()
-        self.assertTrue(hasattr(self.city, "created_at"))
-        self.assertTrue(hasattr(self.city, "updated_at"))
-        self.assertFalse(hasattr(self.city, "random_attr"))
-        self.assertTrue(hasattr(self.city, "name"))
-        self.assertTrue(hasattr(self.city, "id"))
-        self.assertEqual(self.city.name, "")
-        self.assertEqual(self.city.state_id, "")
-        self.city.name = "WonderLand"
-        self.city.state_id = "Won67L0nd"
-        self.assertEqual(self.city.name, "WonderLand")
-        self.assertEqual(self.city.state_id, "Won67L0nd")
-        self.assertEqual(self.city.__class__.__name__, "City")
-
-    def testsave(self):
-        ''' testing method: save '''
-        self.city = City()
-        self.city.save()
-        self.assertTrue(hasattr(self.city, "updated_at"))
-
-    def teststr(self):
-        ''' testing __str__ return format of BaseModel '''
-        self.city = City()
-        s = "[{}] ({}) {}".format(self.city.__class__.__name__,
-                                  str(self.city.id), self.city.__dict__)
-        self.assertEqual(print(s), print(self.city))
+from models.place import Place
+from models.state import State
+from models.review import Review
+from models.user import User
+from models.engine.file_storage import FileStorage
 
 
-if __name__ == '__main__':
-    unittest.main()
+class TestCity(unittest.TestCase):
+
+    def setUp(self):
+        """SetUp method"""
+        self.city1 = City()
+        self.city1.state_id = "ad45ad61as6d1"
+        self.city1.name = "juan"
+
+    def test_base_pep8(self):
+        """Test for pep8"""
+        pep8style = pep8.StyleGuide(quiet=True)
+        result = pep8style.check_files(['./models/city.py'])
+        self.assertEqual(result.total_errors, 0)
+
+    def test_docstring(self):
+        """test docstring in the file"""
+        self.assertIsNotNone(City.__doc__)
+
+    def test_is_instance(self):
+        """Test for instantiation"""
+        self.assertIsInstance(self.city1, City)
+
+    def test_attributes(self):
+        """Test to check attributes"""
+        self.city1.save()
+        city1_json = self.city1.to_dict()
+        my_new_city = City(**city1_json)
+        self.assertEqual(my_new_city.id, self.city1.id)
+        self.assertEqual(my_new_city.created_at, self.city1.created_at)
+        self.assertEqual(my_new_city.updated_at, self.city1.updated_at)
+        self.assertIsNot(self.city1, my_new_city)
+
+    def test_subclass(self):
+        """Test to check the inheritance"""
+        self.assertTrue(issubclass(self.city1.__class__, BaseModel), True)
+
+    def test_save(self):
+        """Test to check save method"""
+        variable_update = self.city1.updated_at
+        self.city1.save()
+        self.assertNotEqual(variable_update, self.city1.updated_at)
